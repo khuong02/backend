@@ -14,6 +14,20 @@ services:
       - ${POSTGRES_PORT}:5432
     volumes:
       - ./${POSTGRES_MOUNT_PATH}:/var/lib/postgresql/data
+  minio:
+    image: minio/minio
+    container_name: ${MINIO_CONTAINER_NAME}
+    ports:
+      - ${MINIO_PORT_UI}:9000
+      - ${MINIO_PORT_CONSOLE}:9001
+    volumes:
+      - ./${MINIO_MOUNT_PATH}:/data
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: Minio@123
+    command: server --console-address ":9001" /data
+    networks:
+      - project
 
 volumes:
   postgres:

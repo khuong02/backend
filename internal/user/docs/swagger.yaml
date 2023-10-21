@@ -36,12 +36,51 @@ definitions:
         type: integer
       message: {}
     type: object
+  github_com_khuong02_backend_pkg_helper.ResponseSuccess:
+    properties:
+      code:
+        type: integer
+      data: {}
+      http_code:
+        type: integer
+      message: {}
+    type: object
 info:
   contact: {}
   description: Transaction API.
   title: User API
   version: "1.0"
 paths:
+  /upload:
+    post:
+      consumes:
+      - application/json
+      description: media upload
+      parameters:
+      - description: Media
+        in: formData
+        name: file
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_pkg_helper.ResponseSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_pkg_helper.ResponseErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_pkg_helper.ResponseErr'
+      security:
+      - BearerAuth: []
+      summary: Upload media upload
+      tags:
+      - Media
   /user/login:
     post:
       consumes:
@@ -106,7 +145,7 @@ schemes:
 - http
 - https
 securityDefinitions:
-  AuthToken:
+  BearerAuth:
     in: header
     name: Authorization
     type: apiKey

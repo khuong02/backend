@@ -3,12 +3,14 @@ package app
 import (
 	"github.com/khuong02/backend/cmd/server/config"
 	_auth "github.com/khuong02/backend/internal/user/usecases/auth"
+	_media "github.com/khuong02/backend/internal/user/usecases/media"
 	"github.com/khuong02/backend/pkg/logger"
 )
 
 type Service struct {
 	// usecases
-	Auth _auth.IAuth
+	Auth  _auth.IAuth
+	Media _media.IMedia
 
 	// plugins
 	Logger *logger.Logger
@@ -22,9 +24,11 @@ func New(
 
 	// usecases
 	auth _auth.IAuth,
+	media _media.IMedia,
 ) *Service {
 	return &Service{
-		Auth: auth,
+		Auth:  auth,
+		Media: media,
 
 		Logger: logger,
 		Cfg:    cfg,

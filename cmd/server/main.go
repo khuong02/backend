@@ -10,9 +10,11 @@ import (
 	"github.com/khuong02/backend/internal/user/migrations"
 	"github.com/khuong02/backend/internal/user/repositories"
 	_auth "github.com/khuong02/backend/internal/user/usecases/auth"
+	_media "github.com/khuong02/backend/internal/user/usecases/media"
 	"github.com/khuong02/backend/pkg/database"
 	"github.com/khuong02/backend/pkg/flags"
 	"github.com/khuong02/backend/pkg/logger"
+	"github.com/khuong02/backend/pkg/minio"
 	"github.com/soheilhy/cmux"
 	"log"
 	"net"
@@ -26,7 +28,7 @@ import (
 //	@BasePath	/v1/api
 //	@schemes	http https
 
-//	@securityDefinitions.apikey	AuthToken
+//	@securityDefinitions.apikey	BearerAuth
 //	@in							header
 //	@name						Authorization
 
@@ -49,13 +51,18 @@ func main() {
 
 	defer psql.Disconnect()
 
+	// minio
+	minioClient := minio.NewMinioClient(*cfg.Minio, l).Connect()
+
 	// repo
 	userRepo := repositories.NewAuth(psql.GetClient)
+	mediaRepo := repositories.NewMedia(psql.GetClient)
 
 	// usecases
 	auth := _auth.NewAuth(userRepo, l, *cfg)
+	media := _media.NewMedia(mediaRepo, l, *cfg, *minioClient)
 
-	service := app.New(l, *cfg, auth)
+	service := app.New(l, *cfg, auth, media)
 
 	switch flags.Task {
 	case "server":

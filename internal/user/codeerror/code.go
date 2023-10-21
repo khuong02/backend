@@ -15,6 +15,10 @@ const (
 	ErrNotExistUserCode  = 20102
 	ErrLoginFailedCode   = 20103
 	ErrWrongPasswordCode = 20104
+
+	// media
+	ErrMaxSizeMediaUploadCode = 20201
+	ErrInsertMediaToDBCode    = 20202
 )
 
 var errorMessage = map[int]helper.ErrorMessage{

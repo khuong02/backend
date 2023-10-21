@@ -32,6 +32,7 @@ func NewAuth(AuthRepo repositories.IAuth, logger *logger.Logger, cfg config.Conf
 }
 
 func (uc *Auth) accessToken(user *entities.User) string {
+	// generate access token for info user and set time revoke token
 	now := time.Now()
 	accessToken, _ := my_jwt.GenerateJWT(my_jwt.MyJWT{
 		UserID:   user.ID,
@@ -47,24 +48,28 @@ func (uc *Auth) accessToken(user *entities.User) string {
 }
 
 func (uc *Auth) Register(ctx context.Context, req payload.Register) (*dtos.AuthResponse, error) {
+	// validate request for client
 	if err := req.Validate(); err != nil {
 		return nil, err
 	}
 
+	// create user and get info after register
 	user, err := uc.repo.CreateUser(ctx, req.ToDTO())
 	if err != nil {
 		return nil, codeerror.ErrRegisterFail(err)
 	}
 
-	return dtos.NewAuthResponse(uc.accessToken(user)), nil
+	return dtos.NewAuthResponse(uc.accessToken(user)), nil // return access token
 }
 
 func (uc *Auth) Login(ctx context.Context, req payload.Login) (*dtos.AuthResponse, error) {
+	// validate request for client
 	if err := req.Validate(); err != nil {
 
 		return nil, err
 	}
 
+	// get user by username
 	user, err := uc.repo.FindByUserName(ctx, req.UserName)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -74,9 +79,10 @@ func (uc *Auth) Login(ctx context.Context, req payload.Login) (*dtos.AuthRespons
 		return nil, codeerror.ErrLoginFailed(err)
 	}
 
+	// check match password
 	if !utils.CheckPasswordHash(req.Password, user.Password) {
 		return nil, codeerror.ErrWrongPassword(errors.New("Wrong Password"))
 	}
 
-	return dtos.NewAuthResponse(uc.accessToken(user)), nil
+	return dtos.NewAuthResponse(uc.accessToken(user)), nil // return access token
 }

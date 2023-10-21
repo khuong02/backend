@@ -67,6 +67,7 @@ func (h *ServiceHTTP) NewHTTPHandler() *gin.Engine {
 		r.GET("docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	}
 
+	r.MaxMultipartMemory = 8 << 20 // 8 MiB
 	user.Init(r.Group("/v1/api"), h.service)
 
 	return r

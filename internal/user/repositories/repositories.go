@@ -11,4 +11,8 @@ type (
 		CreateUser(ctx context.Context, user dtos.CreateUser) (*entities.User, error)
 		FindByUserName(ctx context.Context, username string) (*entities.User, error)
 	}
+
+	IMedia interface {
+		Insert(ctx context.Context, mediaUpload dtos.MediaUploadDTO) error
+	}
 )

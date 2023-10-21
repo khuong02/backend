@@ -7,6 +7,7 @@ import (
 	configs "github.com/khuong02/backend/pkg/config"
 	"github.com/khuong02/backend/pkg/database"
 	"github.com/khuong02/backend/pkg/flags"
+	"github.com/khuong02/backend/pkg/minio"
 	"log"
 	"os"
 )
@@ -16,7 +17,8 @@ type Config struct {
 	configs.Http    `yaml:"HTTP"`
 	configs.Log     `yaml:"LOG"`
 	configs.Swagger `yaml:"SWAGGER"`
-	JWT             JWT                      `yaml:"JWT"`
+	JWT             *JWT                     `yaml:"JWT"`
+	Minio           *minio.MinioConfig       `yaml:"MINIO"`
 	Postgres        *database.PostgresConfig `yaml:"POSTGRES_DB"`
 }
 

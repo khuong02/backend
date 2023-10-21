@@ -20,7 +20,7 @@ func handleClaims(c *gin.Context, key string) (interface{}, error) {
 func VerifyJWTMiddleware(cfg config.Config) func(*gin.Context) {
 	return func(c *gin.Context) {
 
-		authHeader := c.Request.Header["Token"]
+		authHeader := c.Request.Header["Authorization"]
 		if len(authHeader) == 0 {
 			err := errors.New("Not found token")
 			helper.Error(c, JWTExpired(err))

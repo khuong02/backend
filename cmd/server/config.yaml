@@ -30,3 +30,10 @@ POSTGRES_DB:
 JWT:
   ACCESS_SECRET_KEY: "Y293c3BpbmNvbmRpdGlvbm1vdmllc21vb3RodHdlbHZldGhlcmVmb3Jlb3JhbmdlY28=" # random generate
   ACCESS_TOKEN_EXPIRE_TIME: 3600000 # 1000 hours
+
+MINIO:
+  PUBLIC_ENDPOINT: "http://localhost:9000"
+  SERVER_ENDPOINT: "localhost:9000"
+  ACCESS_KEY: "G222qn4yr10CLhdPUzEX"
+  SECRET_KEY: "0BP5SqbZkKaUazVRs0HfO8a9N2nNV2MOFHom6fzq"
+  USE_SSL: false
