@@ -20,12 +20,12 @@ COPY . /app
 WORKDIR /app
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -tags migrate -o /bin/app ./cmd/user
+    go build -tags migrate -o /bin/app ./cmd/server
 
 FROM scratch
 
 COPY --from=builder /app/cmd/server/config.yaml ./
-COPY --from=builder /app/internal/user/migrations /internal/cms/migrations
+COPY --from=builder /app/internal/user/migrations /internal/user/migrations
 COPY --from=builder /bin/app /app
 
 EXPOSE 80
