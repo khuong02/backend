@@ -1,0 +1,28 @@
+APP:
+  NAME: server
+  STAGE: LOCAL
+  VERSION: 0.0.1
+
+HTTP:
+  PORT: 8888
+  HOST: 0.0.0.0
+
+SWAGGER:
+  URL: 'localhost:8888'
+
+LOG:
+  PATH_LOGGER: logs
+
+
+POSTGRES_DB:
+  HOST: localhost
+  PORT: 5432
+  NAME: user
+  USER: admin
+  PASS: admin
+  SCHEMA: public
+  MAX_IDLE_CONNS: 10
+  MAX_OPEN_CONNS: 40
+  TX_RETRY_COUNT: 1
+  CONN_MAX_LIFE_TIME: 5
+  DIR_MIGRATION: "../../internal/user/migrations"

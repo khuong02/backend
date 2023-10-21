@@ -1,0 +1,6 @@
+.env
+/db
+/tmp
+cmd/server/logs
+coverage
+docker-compose/tmp
