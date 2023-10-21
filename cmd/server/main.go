@@ -6,8 +6,10 @@ import (
 	"github.com/khuong02/backend/cmd/server/config"
 	"github.com/khuong02/backend/internal/user/app"
 	serviceHttp "github.com/khuong02/backend/internal/user/delivery/http"
+	"github.com/khuong02/backend/internal/user/docs"
 	"github.com/khuong02/backend/internal/user/migrations"
-	_user "github.com/khuong02/backend/internal/user/usecases/user"
+	"github.com/khuong02/backend/internal/user/repositories"
+	_auth "github.com/khuong02/backend/internal/user/usecases/auth"
 	"github.com/khuong02/backend/pkg/database"
 	"github.com/khuong02/backend/pkg/flags"
 	"github.com/khuong02/backend/pkg/logger"
@@ -18,10 +20,10 @@ import (
 	"time"
 )
 
-//	@title		CMS API
+//	@title		User API
 //	@version	1.0
 
-//	@BasePath	/api
+//	@BasePath	/v1/api
 //	@schemes	http https
 
 //	@securityDefinitions.apikey	AuthToken
@@ -47,10 +49,13 @@ func main() {
 
 	defer psql.Disconnect()
 
-	// usecases
-	user := _user.NewUser(psql.GetClient, l)
+	// repo
+	userRepo := repositories.NewAuth(psql.GetClient)
 
-	service := app.New(l, *cfg, user)
+	// usecases
+	auth := _auth.NewAuth(userRepo, l, *cfg)
+
+	service := app.New(l, *cfg, auth)
 
 	switch flags.Task {
 	case "server":
@@ -71,7 +76,7 @@ func executeServer(service *app.Service, logger *logger.Logger) {
 	// job.Init(service)
 
 	// swagger
-	//docs.SwaggerInfo.Host = service.Cfg.Swagger.URL
+	docs.SwaggerInfo.Host = service.Cfg.Swagger.URL
 
 	l, err := net.Listen("tcp", fmt.Sprintf("%v:%v", service.Cfg.Http.Host, service.Cfg.Http.Port))
 	if err != nil {

@@ -16,8 +16,8 @@ LOG:
 
 POSTGRES_DB:
   HOST: localhost
-  PORT: 5432
-  NAME: user
+  PORT: 54328
+  NAME: postgres_db
   USER: admin
   PASS: admin
   SCHEMA: public
@@ -26,3 +26,7 @@ POSTGRES_DB:
   TX_RETRY_COUNT: 1
   CONN_MAX_LIFE_TIME: 5
   DIR_MIGRATION: "../../internal/user/migrations"
+
+JWT:
+  ACCESS_SECRET_KEY: "Y293c3BpbmNvbmRpdGlvbm1vdmllc21vb3RodHdlbHZldGhlcmVmb3Jlb3JhbmdlY28=" # random generate
+  ACCESS_TOKEN_EXPIRE_TIME: 3600000 # 1000 hours

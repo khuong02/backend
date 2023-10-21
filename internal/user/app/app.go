@@ -2,13 +2,13 @@ package app
 
 import (
 	"github.com/khuong02/backend/cmd/server/config"
-	_user "github.com/khuong02/backend/internal/user/usecases/user"
+	_auth "github.com/khuong02/backend/internal/user/usecases/auth"
 	"github.com/khuong02/backend/pkg/logger"
 )
 
 type Service struct {
 	// usecases
-	User _user.IUser
+	Auth _auth.IAuth
 
 	// plugins
 	Logger *logger.Logger
@@ -21,10 +21,10 @@ func New(
 	cfg config.Config,
 
 	// usecases
-	user _user.IUser,
+	auth _auth.IAuth,
 ) *Service {
 	return &Service{
-		User: user,
+		Auth: auth,
 
 		Logger: logger,
 		Cfg:    cfg,

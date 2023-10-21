@@ -1,0 +1,73 @@
+basePath: /v1/api
+definitions:
+  github_com_khuong02_backend_internal_user_dtos.AuthResponse:
+    properties:
+      access_token:
+        type: string
+    type: object
+  github_com_khuong02_backend_internal_user_payload.Register:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  github_com_khuong02_backend_pkg_helper.ResponseErr:
+    properties:
+      code:
+        type: integer
+      details:
+        items: {}
+        type: array
+      http_code:
+        type: integer
+      message: {}
+    type: object
+info:
+  contact: {}
+  description: Transaction API.
+  title: User API
+  version: "1.0"
+paths:
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: register
+      parameters:
+      - description: register screen
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_khuong02_backend_internal_user_payload.Register'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_internal_user_dtos.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_pkg_helper.ResponseErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_pkg_helper.ResponseErr'
+      summary: Register register
+      tags:
+      - Auth
+schemes:
+- http
+- https
+securityDefinitions:
+  AuthToken:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

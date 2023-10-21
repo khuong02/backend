@@ -4,13 +4,27 @@ package repositories
 
 import (
 	"context"
+	"github.com/khuong02/backend/internal/user/dtos"
+	"github.com/khuong02/backend/internal/user/entities"
 	"gorm.io/gorm"
 )
 
-type userRepo struct {
+type authRepo struct {
 	getClient func(ctx context.Context) *gorm.DB
 }
 
-func NewUser(getClient func(ctx context.Context) *gorm.DB) IUser {
-	return &userRepo{getClient: getClient}
+func NewAuth(getClient func(ctx context.Context) *gorm.DB) IAuth {
+	return &authRepo{getClient: getClient}
+}
+
+func (pg *authRepo) CreateUser(ctx context.Context, userDTO dtos.CreateUser) (*entities.User, error) {
+	var user entities.User
+	err := pg.getClient(ctx).Table(entities.User{}.GetTableName()).
+		Create(&userDTO).Where("user_name = ?", userDTO.UserName).
+		First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }

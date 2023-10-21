@@ -16,11 +16,17 @@ type Config struct {
 	configs.Http    `yaml:"HTTP"`
 	configs.Log     `yaml:"LOG"`
 	configs.Swagger `yaml:"SWAGGER"`
+	JWT             JWT                      `yaml:"JWT"`
 	Postgres        *database.PostgresConfig `yaml:"POSTGRES_DB"`
 }
 
 type Migration struct {
 	Dir string `mapstructure:"DIR_MIGRATION"`
+}
+
+type JWT struct {
+	AccessSecretKey       string `yaml:"ACCESS_SECRET_KEY"    env:"JWT_ACCESS_SECRET_KEY"`
+	AccessTokenExpireTime int    `yaml:"ACCESS_TOKEN_EXPIRE_TIME" env:"JWT_ACCESS_TOKEN_EXPIRE_TIME"` // unit second
 }
 
 func NewConfig() (*Config, error) {
