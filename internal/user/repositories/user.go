@@ -28,3 +28,15 @@ func (pg *authRepo) CreateUser(ctx context.Context, userDTO dtos.CreateUser) (*e
 
 	return &user, nil
 }
+
+func (pg *authRepo) FindByUserName(ctx context.Context, username string) (*entities.User, error) {
+	var user entities.User
+	err := pg.getClient(ctx).Table(entities.User{}.GetTableName()).
+		Where("user_name = ?", username).
+		First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

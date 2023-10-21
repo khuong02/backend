@@ -5,6 +5,16 @@ definitions:
       access_token:
         type: string
     type: object
+  github_com_khuong02_backend_internal_user_payload.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   github_com_khuong02_backend_internal_user_payload.Register:
     properties:
       password:
@@ -32,6 +42,36 @@ info:
   title: User API
   version: "1.0"
 paths:
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Login screen
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_khuong02_backend_internal_user_payload.Login'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_internal_user_dtos.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_pkg_helper.ResponseErr'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_khuong02_backend_pkg_helper.ResponseErr'
+      summary: Login Login
+      tags:
+      - Auth
   /user/register:
     post:
       consumes:

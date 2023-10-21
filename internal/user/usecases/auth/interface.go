@@ -8,4 +8,5 @@ import (
 
 type IAuth interface {
 	Register(ctx context.Context, req payload.Register) (*dtos.AuthResponse, error)
+	Login(ctx context.Context, req payload.Login) (*dtos.AuthResponse, error)
 }

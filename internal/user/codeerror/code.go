@@ -10,8 +10,11 @@ const (
 	ErrInvalidParamsCode = 20001
 	ErrBadRequestCode    = 20002
 
-	// register
-	ErrRegisterFailCode = 20101
+	// auth
+	ErrRegisterFailCode  = 20101
+	ErrNotExistUserCode  = 20102
+	ErrLoginFailedCode   = 20103
+	ErrWrongPasswordCode = 20104
 )
 
 var errorMessage = map[int]helper.ErrorMessage{

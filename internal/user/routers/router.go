@@ -31,4 +31,5 @@ func Init(group *gin.RouterGroup, service *app.Service) {
 	})
 
 	group.POST("/user/register", r.Register)
+	group.POST("/user/login", r.Login)
 }
